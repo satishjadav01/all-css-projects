@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login with Validation</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Log in to your account</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="username" 
+            placeholder="Username" 
+            required 
+            pattern=".{5,}" 
+            title="Username must be at least 5 characters long."
+          >
+        </div>
+        <div class="form-group">
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Password" 
+            required 
+            minlength="8" 
+            title="Password must be at least 8 characters long.">
+          <label for="showPassword" class="show-password-label">
+           <i class="fa-regular fa-eye"></i>    
+          </label>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <div class="links">
+          <a href="#">Forgot Password?</a>
+          <span>|</span>
+          <a href="#">Create an Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const showPasswordCheckbox = document.getElementById('showPassword');
+    const passwordField = document.getElementById('password');
+
+    // Toggle password visibility when checkbox is clicked
+    showPasswordCheckbox.addEventListener('change', function() {
+      if (showPasswordCheckbox.checked) {
+        passwordField.type = 'text'; // Show password
+      } else {
+        passwordField.type = 'password'; // Hide password
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent form submission for validation
+      
+      const username = document.getElementById('username');
+      const password = document.getElementById('password');
+      
+      // Reset previous error messages
+      username.setCustomValidity('');
+      password.setCustomValidity('');
+      
+      let isValid = true;
+
+      // Validate Username
+      if (!username.value.match(/.{5,}/)) {
+        username.setCustomValidity('Username must be at least 5 characters long.');
+        isValid = false;
+      }
+
+      // Validate Password
+      if (password.value.length < 8) {
+        password.setCustomValidity('Password must be at least 8 characters long.');
+        isValid = false;
+      }
+
+      if (isValid) {
+        alert('Login successful!');
+        // Submit the form or perform further actions here
+      } else {
+        username.reportValidity();
+        password.reportValidity();
+      }
+    });
+  </script>
+</body>
+</html>
